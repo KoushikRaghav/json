@@ -1,14 +1,18 @@
 import requests	
 import json
 
-url = "http://www.recipepuppy.com/api/"
-ResponseData = requests.get(url) 
-data = json.loads(ResponseData.content.decode('utf-8'))
+def getJsonData():
+	url = "http://www.recipepuppy.com/api/"	
+	ResponseData = requests.get(url) 
+	data = json.loads(ResponseData.content.decode('utf-8'))
+	return data
 
-def hitJson(num):
+def printJsonData(num):
+	data = getJsonData()
 	print "\t{}".format(data['results'][num]['ingredients'])
 		
 def selectAnyOption():
+	data = getJsonData()
 	n = 5
 	a = data["results"]
 	for idd, results in enumerate(a[:n]):
@@ -18,14 +22,13 @@ def selectAnyOption():
 		for idd, results in enumerate(data["results"]):
 			print "\n\t\t {} {}".format(idd,results["title"])
 		option = int(input("\tEnter any option to know the ingredients\n\t\t\t"))
-		hitJson(option)
-		
+		printJsonData(option)
 	else:
 		option = int(input("\n\tEnter any option to know the ingredients\n\t\t\t"))
 		if option > n-1:
-			print "\t\t\tERROR"
+			print "\n\t\t\tERROR"
 		else:
-			hitJson(option)
+			printJsonData(option)
 			
 def main():
 	print "\t\t\tHELLO\n"
